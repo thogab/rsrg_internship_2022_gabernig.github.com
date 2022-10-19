@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Internship 2022 // GABERNIG Thomas</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <style>
+    .popup {
+      text-align: center;
+    }
+
+    .popup .slideshow .image {
+      display: none;
+    }
+
+    .popup .slideshow .image.active {
+      display: block;
+    }
+
+    .popup .slideshow img {
+      width: 100%;
+    }
+
+    .popup .slideshow .caption {
+      background: #eee;
+      padding: 10px;
+    }
+
+    .popup .cycle {
+      padding: 10px 0 20px;
+    }
+
+    .popup .cycle a.prev {
+      float: left;
+    }
+
+    .popup .cycle a.next {
+      float: right;
+    }
+  </style>
+
+  <div id='map'></div>
+
+  <!-- jQuery is required for this example. -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFsLXdvb2QiLCJhIjoiY2oyZ2t2em50MDAyMzJ3cnltMDFhb2NzdiJ9.X-D4Wvo5E5QxeP7K_I3O8w';
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/mapbox/light-v10', // style URL
+      center: [8.59374, 46.89937], // starting position [lng, lat]
+      zoom: 7.5 // starting zoom
+    });
+
+    var geojsonFeatures = 
+    {
+      type: 'FeatureCollection',
+      features: 
+      [{
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.682824, 47.419917] },
+        "properties": {
+          'title': 'Effretikon',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', ''],
+            ['https://i.imgur.com/xND1MND.jpg', ''],
+            ['https://i.imgur.com/EKJmqui.jpg', '']
+          ]
+        }
+      }, 
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.5414, 47.05538] },
+        "properties": {
+          'title': 'Arth-Goldau',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'city',
+          'marker-size': 'large',
+          'images': [
+            ['https://drive.google.com/uc?export=view&id=1Q88hjrgJICdslfOp1oxzpHgl9O-10EQw', ''],
+            ['https://drive.google.com/uc?export=view&id=1Cmx-YMeKgMceX5nOHgnOKRC7Obcx5EXf', '.'],
+            ['https://drive.google.com/uc?export=view&id=1yHXZOwjHMyDdm7wr1p7Wt2FUewQomwqF', '']
+          ]
+
+        }
+        
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.66459, 47.24821] },
+        "properties": {
+          'title': 'Wädenswill',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://drive.google.com/uc?export=view&id=1K2-nBsdPjeN7K1_47VNNPHebZJLy4kDK', ''],
+            ['https://drive.google.com/uc?export=view&id=1zrx4IEI-15UA2sfNWzQ_Zg01S_rt6PZp', ''],
+            ['https://drive.google.com/uc?export=view&id=1d1ZH4A6e7ps98tQKSCD8D8nEzvNIUzIF', '']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.493129, 47.394672] },
+        "properties": {
+          'title': 'Zürich',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', ''],
+            ['https://i.imgur.com/xND1MND.jpg', ''],
+            ['https://i.imgur.com/EKJmqui.jpg', '']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.765059, 47.511305] },
+        "properties": {
+          'title': 'Oberwinterthur',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [7.664659, 47.533198] },
+        "properties": {
+          'title': 'Basel',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.26105, 47.12741] },
+        "properties": {
+          'title': 'Walenstadt',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.53682, 46.95998] },
+        "properties": {
+          'title': 'Landquart',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [7.79491, 46.22189] },
+        "properties": {
+          'title': 'Embd',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [7.98011, 46.3184] },
+        "properties": {
+          'title': 'Brig',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.69677, 46.81065] },
+        "properties": {
+          'title': 'Litzirüti',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.59833, 46.83539] },
+        "properties": {
+          'title': 'Untersax',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.89442, 46.85683] },
+        "properties": {
+          'title': 'Klosters',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.06291, 46.7638] },
+        "properties": {
+          'title': 'Tavanasas',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [9.06291, 46.7638] },
+        "properties": {
+          'title': 'Tavanasas',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.246282, 47.356888] },
+        "properties": {
+          'title': 'Vilmergen',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.506773, 47.589159] },
+        "properties": {
+          'title': 'Hüntwang',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.03505, 47.54867] },
+        "properties": {
+          'title': 'Kaisten',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      },
+      {
+        type: 'Feature',
+        "geometry": { "type": "Point", "coordinates": [8.454946, 47.101621] },
+        "properties": {
+          'title': 'Immensee',
+          'marker-color': '#3c4e5a',
+          'marker-symbol': 'monument',
+          'marker-size': 'medium',
+
+          // Store the image url and caption in an array.
+          'images': [
+            ['https://i.imgur.com/O6QEpBs.jpg', 'The U.S. Capitol after the burning of Washington during the War of 1812'],
+            ['https://i.imgur.com/xND1MND.jpg', 'Ford\'s Theatre in the 19th century, site of the 1865 assassination of President Lincoln'],
+            ['https://i.imgur.com/EKJmqui.jpg', 'The National Cherry Blossom Festival is celebrated around the city each sng.']
+          ]
+        }
+      }
+    ] // ] bleibt davor , und dann einfügen
+    }; // bleibt
+
+    map.on('load', function () {
+      geojsonFeatures.features.forEach(function (marker) {
+
+        var el = document.createElement('div');
+        el.className = 'marker';
+        el.style.backgroundImage = 'url(https://drive.google.com/uc?export=view&id=11hMFT0Mv9chzOyhsR5pUQdGWPEnh6UDE)'; // marker bild
+        el.style.width = 15 + 'px';
+        el.style.height = 15 + 'px';
+
+        var images = marker.properties.images
+        var slideshowContent = ""
+
+        for (var i = 0; i < images.length; i++) {
+          var img = images[i];
+
+          slideshowContent += '<div class="image' + (i === 0 ? ' active' : '') + '">' +
+            '<img src="' + img[0] + '" />' +
+            '<div class="caption">' + img[1] + '</div>' +
+            '</div>';
+        }
+
+        var popupContent = '<div id="' + marker.properties.id + '" class="popup">' +
+          '<h2>' + marker.properties.title + '</h2>' +
+          '<div class="slideshow">' +
+          slideshowContent +
+          '</div>' +
+          '<div class="cycle">' +
+          '<a href="#" class="prev">&laquo;</a>' + //geändert
+          '<a href="#" class="next"> &raquo;</a>' + // geändert
+          '</div>'
+        '</div>';
+
+        // create the popup
+        var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent)
+
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .setPopup(popup)
+          .addTo(map);
+      })
+    })
+
+    $('#map').on('click', '.popup .cycle a', function () {
+      var $slideshow = $('.slideshow'),
+        $newSlide;
+
+      if ($(this).hasClass('prev')) {
+        $newSlide = $slideshow.find('.active').prev();
+        if ($newSlide.index() < 0) {
+          $newSlide = $('.image').last();
+        }
+      } else {
+        $newSlide = $slideshow.find('.active').next();
+        if ($newSlide.index() < 0) {
+          $newSlide = $('.image').first();
+        }
+      }
+
+      $slideshow.find('.active').removeClass('active').hide();
+      $newSlide.addClass('active').show();
+      return false;
+    });
+
+  </script>
+</body>
+
+</html>
